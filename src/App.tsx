@@ -1,0 +1,76 @@
+import { useState } from 'react';
+import type { Recipe } from './types/recipe';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import RecipeList from './components/RecipeList';
+import SearchBar from './components/SearchBar';
+import './App.css';
+
+function App() {
+  // Sample recipes data
+  const sampleRecipes: Recipe[] = [
+    {
+      id: '1',
+      name: 'Vegetable Stir Fry',
+      ingredients: ['Broccoli', 'Bell peppers', 'Carrots', 'Soy sauce', 'Garlic', 'Ginger'],
+      cookingTime: 20,
+      difficulty: 'easy',
+      description: 'A quick and healthy vegetable stir fry.',
+      imageUrl: '/placeholder-recipe.jpg'
+    },
+    {
+      id: '2',
+      name: 'Classic Beef Burger',
+      ingredients: ['Ground beef', 'Burger buns', 'Lettuce', 'Tomato', 'Onion', 'Cheese'],
+      cookingTime: 30,
+      difficulty: 'medium',
+      description: 'Juicy homemade beef burgers.',
+      imageUrl: '/placeholder-recipe.jpg'
+    },
+    {
+      id: '3',
+      name: 'Chocolate Chip Cookies',
+      ingredients: ['Flour', 'Butter', 'Sugar', 'Eggs', 'Vanilla', 'Chocolate chips'],
+      cookingTime: 45,
+      difficulty: 'easy',
+      description: 'Delicious homemade chocolate chip cookies.',
+      imageUrl: '/placeholder-recipe.jpg'
+    }
+  ];
+
+  const [recipes] = useState<Recipe[]>(sampleRecipes);
+  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(sampleRecipes);
+
+  const handleSearch = (query: string) => {
+    if (!query.trim()) {
+      setFilteredRecipes(recipes);
+      return;
+    }
+
+    // Simple fuzzy search implementation
+    const filtered = recipes.filter(recipe =>
+      recipe.name.toLowerCase().includes(query.toLowerCase()) ||
+      recipe.ingredients.some(ingredient =>
+        ingredient.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+
+    setFilteredRecipes(filtered);
+  };
+
+  return (
+    <ThemeProvider>
+      <div className="app">
+        <Header />
+        <main className="main-content">
+          <SearchBar onSearch={handleSearch} />
+          <RecipeList recipes={filteredRecipes} />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
+  );
+}
+
+export default App;
