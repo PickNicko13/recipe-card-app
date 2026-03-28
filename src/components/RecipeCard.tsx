@@ -24,24 +24,24 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
       <h3 className="recipe-title">{recipe.name}</h3>
       <div className="recipe-meta">
         <div className="meta-item">
-          <span className="label">⏱️ {recipe.cookingTime}min</span>
+          <span className="meta-label">⏱️ {recipe.cookingTime}min</span>
         </div>
         <div className="meta-item">
           <span 
-            className={`difficulty ${getDifficultyColorClass(recipe.difficulty)}`}
+            className={`meta-difficulty difficulty ${getDifficultyColorClass(recipe.difficulty)}`}
           >
             {recipe.difficulty.charAt(0).toUpperCase()}
           </span>
         </div>
         <div className="meta-item">
-          <span className="label">🥗 {recipe.ingredients.length} ing</span>
+          <span className="meta-label">🥗 {recipe.ingredients.length} ing</span>
         </div>
       </div>
       <div className="ingredients-section">
-        <h4>Ingredients</h4>
+        <h4 className="ingredients-title">Ingredients</h4>
         <ul className="ingredients-list">
           {recipe.ingredients.slice(0, 6).map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
+            <li key={index} className="ingredient-item">{ingredient}</li>
           ))}
           {recipe.ingredients.length > 6 && (
             <li className="more-ingredients">+{recipe.ingredients.length - 6} more</li>
