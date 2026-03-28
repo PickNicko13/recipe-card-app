@@ -39,33 +39,37 @@ function App() {
     }
   ];
 
-  const [recipes] = useState<Recipe[]>(sampleRecipes);
-  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(sampleRecipes);
+  const [recipes, setRecipes] = useState<Recipe[]>(sampleRecipes);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    if (!query.trim()) {
-      setFilteredRecipes(recipes);
-      return;
-    }
+  };
 
-    // Simple fuzzy search implementation
-    const filtered = recipes.filter(recipe =>
-      recipe.name.toLowerCase().includes(query.toLowerCase()) ||
-      recipe.ingredients.some(ingredient =>
-        ingredient.toLowerCase().includes(query.toLowerCase())
+  const handleToggleLike = (id: string) => {
+    setRecipes(prevRecipes =>
+      prevRecipes.map(recipe =>
+        recipe.id === id ? { ...recipe, isLiked: !recipe.isLiked } : recipe
       )
     );
-
-    setFilteredRecipes(filtered);
   };
+
+  const filteredRecipes = recipes.filter(recipe => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      recipe.name.toLowerCase().includes(q) ||
+      recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(q))
+    );
+  });
+
+  const likedCount = recipes.filter(recipe => recipe.isLiked).length;
 
   return (
     <ThemeProvider>
       <div className="app">
-        <Header />
-        <MainContent recipes={filteredRecipes} query={searchQuery} onSearch={handleSearch} />
+        <Header likedCount={likedCount} />
+        <MainContent recipes={filteredRecipes} query={searchQuery} onSearch={handleSearch} onToggleLike={handleToggleLike} />
         <Footer />
       </div>
     </ThemeProvider>

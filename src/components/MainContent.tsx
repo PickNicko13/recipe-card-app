@@ -7,14 +7,15 @@ interface MainContentProps {
   recipes: Recipe[];
   query: string;
   onSearch: (query: string) => void;
+  onToggleLike: (id: string) => void;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ recipes, query, onSearch }) => {
+const MainContent: React.FC<MainContentProps> = ({ recipes, query, onSearch, onToggleLike }) => {
   return (
     <main className="main-content">
       <>
         <SearchBar query={query} onSearch={onSearch} />
-        <RecipeList recipes={recipes} />
+        <RecipeList recipes={recipes} onToggleLike={onToggleLike} />
       </>
     </main>
   );

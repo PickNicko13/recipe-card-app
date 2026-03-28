@@ -6,4 +6,5 @@ export interface Recipe {
   difficulty: 'easy' | 'medium' | 'hard';
   description?: string;
   imageUrl?: string;
+  isLiked?: boolean;
 }

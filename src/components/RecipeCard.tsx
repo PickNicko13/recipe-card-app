@@ -3,9 +3,10 @@ import type { Recipe } from '../types/recipe';
 
 interface RecipeCardProps {
   recipe: Recipe;
+  onToggleLike: (id: string) => void;
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike }) => {
   const getDifficultyColorClass = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
@@ -20,8 +21,17 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   };
 
   return (
-    <div className="recipe-card">
-      <h3 className="recipe-title">{recipe.name}</h3>
+    <div className={`recipe-card ${recipe.isLiked ? 'liked' : ''}`}>
+      <div className="recipe-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h3 className="recipe-title">{recipe.name}</h3>
+        <button 
+          className="like-btn" 
+          onClick={() => onToggleLike(recipe.id)}
+          style={{ cursor: 'pointer', background: 'none', border: 'none', fontSize: '1.5rem' }}
+        >
+          {recipe.isLiked ? '❤️' : '🤍'}
+        </button>
+      </div>
       <div className="recipe-meta">
         <div className="meta-item">
           <span className="meta-label">⏱️ {recipe.cookingTime}min</span>
