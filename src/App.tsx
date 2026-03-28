@@ -3,8 +3,7 @@ import type { Recipe } from './types/recipe';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import RecipeList from './components/RecipeList';
-import SearchBar from './components/SearchBar';
+import MainContent from './components/MainContent';
 import placeholderImg from './assets/placeholder-recipe.jpg';
 import './App.css';
 
@@ -42,8 +41,10 @@ function App() {
 
   const [recipes] = useState<Recipe[]>(sampleRecipes);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(sampleRecipes);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query: string) => {
+    setSearchQuery(query);
     if (!query.trim()) {
       setFilteredRecipes(recipes);
       return;
@@ -64,10 +65,7 @@ function App() {
     <ThemeProvider>
       <div className="app">
         <Header />
-        <main className="main-content">
-          <SearchBar onSearch={handleSearch} />
-          <RecipeList recipes={filteredRecipes} />
-        </main>
+        <MainContent recipes={filteredRecipes} query={searchQuery} onSearch={handleSearch} />
         <Footer />
       </div>
     </ThemeProvider>
