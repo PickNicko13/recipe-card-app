@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import RecipeList from './components/RecipeList';
 import SearchBar from './components/SearchBar';
+import placeholderImg from './assets/placeholder-recipe.jpg';
 import './App.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
       cookingTime: 20,
       difficulty: 'easy',
       description: 'A quick and healthy vegetable stir fry.',
-      imageUrl: '/placeholder-recipe.jpg'
+      imageUrl: placeholderImg
     },
     {
       id: '2',
@@ -26,7 +27,7 @@ function App() {
       cookingTime: 30,
       difficulty: 'medium',
       description: 'Juicy homemade beef burgers.',
-      imageUrl: '/placeholder-recipe.jpg'
+      imageUrl: placeholderImg
     },
     {
       id: '3',
@@ -35,7 +36,7 @@ function App() {
       cookingTime: 45,
       difficulty: 'easy',
       description: 'Delicious homemade chocolate chip cookies.',
-      imageUrl: '/placeholder-recipe.jpg'
+      imageUrl: placeholderImg
     }
   ];
 
