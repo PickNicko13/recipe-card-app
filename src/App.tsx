@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Recipe } from './types/recipe';
+import type { FilterMode } from './components/FilterBar';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -41,6 +42,7 @@ function App() {
 
   const [recipes, setRecipes] = useState<Recipe[]>(sampleRecipes);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterMode, setFilterMode] = useState<FilterMode>('all');
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -54,22 +56,48 @@ function App() {
     );
   };
 
-  const filteredRecipes = recipes.filter(recipe => {
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
+  const applyFilter = (recipe: Recipe, mode: FilterMode): boolean => {
+    if (mode === 'liked') return !!recipe.isLiked;
+    if (mode === 'easy' || mode === 'medium' || mode === 'hard') return recipe.difficulty === mode;
+    return true; // 'all'
+  };
+
+  const applySearch = (recipe: Recipe, q: string): boolean => {
+    if (!q.trim()) return true;
+    const lq = q.toLowerCase();
     return (
-      recipe.name.toLowerCase().includes(q) ||
-      recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(q))
+      recipe.name.toLowerCase().includes(lq) ||
+      recipe.ingredients.some(ing => ing.toLowerCase().includes(lq))
     );
-  });
+  };
+
+  const filteredRecipes = recipes.filter(
+    recipe => applyFilter(recipe, filterMode) && applySearch(recipe, searchQuery)
+  );
 
   const likedCount = recipes.filter(recipe => recipe.isLiked).length;
+
+  const filterCounts: Record<FilterMode, number> = {
+    all:    recipes.filter(r => applySearch(r, searchQuery)).length,
+    liked:  recipes.filter(r => r.isLiked && applySearch(r, searchQuery)).length,
+    easy:   recipes.filter(r => r.difficulty === 'easy' && applySearch(r, searchQuery)).length,
+    medium: recipes.filter(r => r.difficulty === 'medium' && applySearch(r, searchQuery)).length,
+    hard:   recipes.filter(r => r.difficulty === 'hard' && applySearch(r, searchQuery)).length,
+  };
 
   return (
     <ThemeProvider>
       <div className="app">
         <Header likedCount={likedCount} />
-        <MainContent recipes={filteredRecipes} query={searchQuery} onSearch={handleSearch} onToggleLike={handleToggleLike} />
+        <MainContent
+          recipes={filteredRecipes}
+          query={searchQuery}
+          filterMode={filterMode}
+          filterCounts={filterCounts}
+          onSearch={handleSearch}
+          onToggleLike={handleToggleLike}
+          onFilterChange={setFilterMode}
+        />
         <Footer />
       </div>
     </ThemeProvider>
