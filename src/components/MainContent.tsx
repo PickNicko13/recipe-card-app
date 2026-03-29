@@ -5,6 +5,7 @@ import SearchBar from './SearchBar';
 import FilterBar from './FilterBar';
 import type { FilterMode } from './FilterBar';
 import RecipeForm from './RecipeForm';
+import ApiRecipes from './ApiRecipes';
 
 interface MainContentProps {
   recipes: Recipe[];
@@ -30,6 +31,7 @@ const MainContent: React.FC<MainContentProps> = ({
         <FilterBar activeFilter={filterMode} onFilterChange={onFilterChange} counts={filterCounts} />
         <SearchBar query={query} onSearch={onSearch} />
         <RecipeList recipes={recipes} onToggleLike={onToggleLike} onRemoveRecipe={onRemoveRecipe} />
+        <ApiRecipes />
       </>
     </main>
   );
