@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Recipe } from './types/recipe';
 import type { FilterMode } from './components/FilterBar';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -40,9 +40,28 @@ function App() {
     }
   ];
 
-  const [recipes, setRecipes] = useState<Recipe[]>(sampleRecipes);
+  const STORAGE_KEY = 'recipe-card-data';
+
+  const [recipes, setRecipes] = useState<Recipe[]>(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) return JSON.parse(stored) as Recipe[];
+    } catch {
+      // corrupted storage — fall back to defaults
+    }
+    return sampleRecipes;
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<FilterMode>('all');
+
+  // Persist recipes to localStorage on every change.
+  // imageUrl is stripped because it holds a bundled asset reference (not a
+  // serialisable URL). RecipeCard already falls back to placeholderImg when
+  // imageUrl is absent.
+  useEffect(() => {
+    const toStore = recipes.map(({ imageUrl: _omit, ...rest }) => rest);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toStore));
+  }, [recipes]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
