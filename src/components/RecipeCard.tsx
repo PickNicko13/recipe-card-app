@@ -1,12 +1,14 @@
 import React from 'react';
 import type { Recipe } from '../types/recipe';
+import placeholderImg from '../assets/placeholder-recipe.jpg';
 
 interface RecipeCardProps {
   recipe: Recipe;
   onToggleLike: (id: string) => void;
+  onRemoveRecipe: (id: string) => void;
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike, onRemoveRecipe }) => {
   const getDifficultyColorClass = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
@@ -20,24 +22,34 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike }) => {
     }
   };
 
+  const imageUrl = recipe.imageUrl || placeholderImg;
   return (
     <div className={`recipe-card ${recipe.isLiked ? 'liked' : ''}`}>
-      <div className="recipe-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="recipe-header">
         <h3 className="recipe-title">{recipe.name}</h3>
-        <button 
-          className="like-btn" 
-          onClick={() => onToggleLike(recipe.id)}
-          style={{ cursor: 'pointer', background: 'none', border: 'none', fontSize: '1.5rem' }}
-        >
-          {recipe.isLiked ? '❤️' : '🤍'}
-        </button>
+        <div className="recipe-header-actions">
+          <button
+            className="like-btn"
+            onClick={() => onToggleLike(recipe.id)}
+            title={recipe.isLiked ? 'Unlike' : 'Like'}
+          >
+            {recipe.isLiked ? '❤️' : '🤍'}
+          </button>
+          <button
+            className="remove-btn"
+            onClick={() => onRemoveRecipe(recipe.id)}
+            title="Remove recipe"
+          >
+            ×
+          </button>
+        </div>
       </div>
       <div className="recipe-meta">
         <div className="meta-item">
           <span className="meta-label">⏱️ {recipe.cookingTime}min</span>
         </div>
         <div className="meta-item">
-          <span 
+          <span
             className={`meta-difficulty difficulty ${getDifficultyColorClass(recipe.difficulty)}`}
           >
             {recipe.difficulty.charAt(0).toUpperCase()}
@@ -63,8 +75,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike }) => {
           <p>{recipe.description}</p>
         </div>
       )}
-      {recipe.imageUrl && (
-        <img src={recipe.imageUrl} alt={recipe.name} className="recipe-image" />
+      {imageUrl && (
+        <img src={imageUrl} alt={recipe.name} className="recipe-image" />
       )}
     </div>
   );

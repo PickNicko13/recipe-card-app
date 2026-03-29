@@ -364,6 +364,129 @@ body {
   border-color: var(--red);
 }
 
+/* Recipe card header layout */
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-header-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.like-btn,
+.remove-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 0.25rem;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.like-btn:hover {
+  background-color: var(--bg2);
+}
+
+.remove-btn {
+  color: var(--red);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.remove-btn:hover {
+  background-color: var(--red);
+  color: var(--bg0);
+}
+
+/* Recipe Form */
+.recipe-form-wrapper {
+  width: 100%;
+  max-width: 37.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.toggle-form-btn {
+  padding: 0.45rem 1rem;
+  border: 0.0625rem solid var(--yellow);
+  border-radius: 0.25rem;
+  background-color: transparent;
+  color: var(--yellow);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.toggle-form-btn:hover {
+  background-color: var(--yellow);
+  color: var(--bg0);
+}
+
+.recipe-form {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: var(--bg1);
+  border: 0.0625rem solid var(--bg2);
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--fg1);
+  font-weight: 600;
+}
+
+.form-input,
+.form-select {
+  padding: 0.5rem 0.7rem;
+  border: 0.0625rem solid var(--bg2);
+  border-radius: 0.25rem;
+  background-color: var(--bg0);
+  color: var(--fg0);
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--yellow);
+}
+
+.submit-btn {
+  align-self: flex-start;
+  padding: 0.45rem 1.25rem;
+  background-color: var(--green);
+  color: var(--bg0);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.85;
+}
+
 /* Footer */
 .footer {
   background-color: var(--bg1);

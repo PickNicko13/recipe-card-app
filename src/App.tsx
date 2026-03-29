@@ -56,6 +56,14 @@ function App() {
     );
   };
 
+  const handleAddRecipe = (recipe: Recipe) => {
+    setRecipes(prev => [...prev, recipe]);
+  };
+
+  const handleRemoveRecipe = (id: string) => {
+    setRecipes(prev => prev.filter(recipe => recipe.id !== id));
+  };
+
   const applyFilter = (recipe: Recipe, mode: FilterMode): boolean => {
     if (mode === 'liked') return !!recipe.isLiked;
     if (mode === 'easy' || mode === 'medium' || mode === 'hard') return recipe.difficulty === mode;
@@ -97,6 +105,8 @@ function App() {
           onSearch={handleSearch}
           onToggleLike={handleToggleLike}
           onFilterChange={setFilterMode}
+          onAddRecipe={handleAddRecipe}
+          onRemoveRecipe={handleRemoveRecipe}
         />
         <Footer />
       </div>

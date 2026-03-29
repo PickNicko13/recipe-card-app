@@ -5,9 +5,10 @@ import RecipeCard from './RecipeCard';
 interface RecipeListProps {
   recipes: Recipe[];
   onToggleLike: (id: string) => void;
+  onRemoveRecipe: (id: string) => void;
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleLike }) => {
+const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleLike, onRemoveRecipe }) => {
   return (
     <div className="recipe-list">
       {recipes.length === 0 && (
@@ -17,7 +18,7 @@ const RecipeList: React.FC<RecipeListProps> = ({ recipes, onToggleLike }) => {
         </div>
       )}
       {recipes.map(recipe => (
-        <RecipeCard key={recipe.id} recipe={recipe} onToggleLike={onToggleLike} />
+        <RecipeCard key={recipe.id} recipe={recipe} onToggleLike={onToggleLike} onRemoveRecipe={onRemoveRecipe} />
       ))}
     </div>
   );
