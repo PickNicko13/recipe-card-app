@@ -1,69 +1,60 @@
 # Recipe Card App
 
-This is a recipe card application built with React and Vite. Recipe cards contain name, ingredients, cooking time, difficulty, and other recipe information.
-
-## Rules
-
-1. Use semantic structure.
-2. Always use strict mode for TypeScript and React.
-3. Cards must be added with `map()`.
-4. Split the task into small features, test them, let me review them before commit. After I approve the feature commit it and follow to the next one.
-5. All functions, classes, and modules must have JSDoc documentation.
-6. All components and business logic must have unit tests.
+A modern, full-featured recipe management application built with **React 19**, **TypeScript**, and **Vite** (with the new experimental rolldown bundler). This application demonstrates a clean, component-based architecture, client-side routing, and external API integration.
 
 ## Features
 
-- Recipe cards displaying name, ingredients, cooking time, difficulty
-- Dark/light mode toggle with Gruvbox theme
-- Fuzzy search functionality
-- Responsive design
+- **Multi-page Navigation**: Using `react-router` with a dynamic `fadeIn` animation on page transitions.
+  - **Home**: Welcome page with feature highlights.
+  - **Recipes**: Main interactive list.
+  - **Recipe Details**: Dynamic pages for each recipe with full nutritional and ingredient info.
+  - **About**: Project background and tech stack.
+- **Recipe Management (CRUD)**: Add new recipes via a controlled form and remove them from the list.
+- **Interactivity**: Like/unlike recipes with a live global counter in the header.
+- **Live Search & Filter**: Fuzzy search by name/ingredient and filtering by difficulty.
+- **Persistence**: Your recipes and "liked" states persist automatically using `localStorage`.
+- **API Integration**: Fetches live recipe suggestions from the **DummyJSON API** using the Fetch API.
+- **Theme Support**: Dark/light mode toggle with a sleek **Gruvbox-inspired** design system.
+- **Responsive Layout**: Fully optimized for mobile, tablet, and desktop viewports.
 
-## Development Onboarding
+## Technology Stack
 
-### Project Structure
-```
+- **Core**: React 19, TypeScript
+- **Routing**: React Router
+- **Build Tool**: Vite
+- **Styling**: Vanilla CSS with modern relative units and custom animations
+- **Data Source**: Local state + DummyJSON API + localStorage
+
+## Project Structure
+
+```bash
 src/
-├── components/    # Reusable React components
-├── contexts/      # React Context providers
-├── types/         # TypeScript type definitions
-├── assets/        # Static assets (images, icons)
-├── App.tsx        # Main application component
-└── main.tsx       # Entry point
+├── assets/        # Images and bundled assets
+├── components/    # Presentational and Logic components
+│   ├── ApiRecipes.tsx   # External API data fetcher
+│   ├── RecipeForm.tsx   # Controlled form for adding recipes
+│   ├── RecipeList.tsx   # Mapper for recipe cards
+│   └── ...
+├── contexts/      # Theme context and global state
+├── pages/         # Full-page components (Home, Recipes, Details, etc.)
+├── types/         # TypeScript interfaces
+├── App.tsx        # Route configuration and root state
+└── main.tsx       # Entry point with BrowserRouter
 ```
 
-## Task List - Missing Requirements
+## Setup & Installation
 
-### TypeScript Configuration ✅ COMPLETED
-- [x] Verify and ensure strict mode is enabled in TypeScript configuration
-  - [x] Create tsconfig.json with strict mode enabled
-  - [x] Configure TypeScript with strict type checking
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-### Testing
-- [ ] Add unit tests for all components and business logic
-  - [ ] App component
-  - [ ] RecipeCard component
-  - [ ] RecipeList component
-  - [ ] SearchBar component
-  - [ ] ThemeToggle component
-  - [ ] Header component
-  - [ ] Footer component
-  - [ ] ThemeContext
+2. **Run Dev Server**:
+   ```bash
+   npm run dev
+   ```
 
-### Code Quality
-- [ ] Add prop validation for all components
-- [ ] Ensure all components follow accessibility best practices
-- [ ] Add proper error boundaries
-- [ ] Optimize performance (memoization, lazy loading)
-
-### Documentation
-- [ ] Add JSDoc documentation to all functions, classes, and modules
-  - [ ] App.tsx
-  - [ ] components/RecipeCard.tsx
-  - [ ] components/RecipeList.tsx
-  - [ ] components/SearchBar.tsx
-  - [ ] components/ThemeToggle.tsx
-  - [ ] components/Header.tsx
-  - [ ] components/Footer.tsx
-  - [ ] contexts/ThemeContext.tsx
-  - [ ] types/recipe.ts
-  - [ ] types/theme.ts
+3. **Build for Production**:
+   ```bash
+   npm run build
+   ```
