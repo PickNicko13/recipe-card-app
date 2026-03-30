@@ -15,7 +15,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe }) => {
   const [description, setDescription] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!name.trim()) return; // basic validation

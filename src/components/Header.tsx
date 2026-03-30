@@ -1,4 +1,4 @@
-import React from 'react';
+import { NavLink } from 'react-router';
 import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
@@ -9,9 +9,14 @@ const Header: React.FC<HeaderProps> = ({ likedCount }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <h1 className="logo">Recipe Card App</h1>
+        <NavLink to="/" className="logo-link">
+          <h1 className="logo">Recipe Card App</h1>
+        </NavLink>
         <nav className="navigation">
-          <span className="liked-count" style={{ marginRight: '1rem' }}>
+          <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Home</NavLink>
+          <NavLink to="/recipes" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Recipes</NavLink>
+          <NavLink to="/about" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>About</NavLink>
+          <span className="liked-count">
             ❤️ Liked: {likedCount}
           </span>
           <ThemeToggle />

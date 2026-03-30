@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import type { Recipe } from './types/recipe';
+import { Routes, Route } from 'react-router';
 import type { FilterMode } from './components/FilterBar';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import MainContent from './components/MainContent';
+import HomePage from './pages/HomePage';
+import RecipesPage from './pages/RecipesPage';
+import AboutPage from './pages/AboutPage';
+import RecipeDetailPage from './pages/RecipeDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 import placeholderImg from './assets/placeholder-recipe.jpg';
 import './App.css';
 
@@ -116,17 +121,28 @@ function App() {
     <ThemeProvider>
       <div className="app">
         <Header likedCount={likedCount} />
-        <MainContent
-          recipes={filteredRecipes}
-          query={searchQuery}
-          filterMode={filterMode}
-          filterCounts={filterCounts}
-          onSearch={handleSearch}
-          onToggleLike={handleToggleLike}
-          onFilterChange={setFilterMode}
-          onAddRecipe={handleAddRecipe}
-          onRemoveRecipe={handleRemoveRecipe}
-        />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/recipes"
+            element={
+              <RecipesPage
+                recipes={filteredRecipes}
+                query={searchQuery}
+                filterMode={filterMode}
+                filterCounts={filterCounts}
+                onSearch={handleSearch}
+                onToggleLike={handleToggleLike}
+                onFilterChange={setFilterMode}
+                onAddRecipe={handleAddRecipe}
+                onRemoveRecipe={handleRemoveRecipe}
+              />
+            }
+          />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/recipe/:id" element={<RecipeDetailPage recipes={recipes} />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
         <Footer />
       </div>
     </ThemeProvider>

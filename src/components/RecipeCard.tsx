@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router';
 import type { Recipe } from '../types/recipe';
 import placeholderImg from '../assets/placeholder-recipe.jpg';
 
@@ -26,7 +26,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike, onRemoveR
   return (
     <div className={`recipe-card ${recipe.isLiked ? 'liked' : ''}`}>
       <div className="recipe-header">
-        <h3 className="recipe-title">{recipe.name}</h3>
+        <Link to={`/recipe/${recipe.id}`} className="recipe-title-link">
+          <h3 className="recipe-title">{recipe.name}</h3>
+        </Link>
         <div className="recipe-header-actions">
           <button
             className="like-btn"
@@ -44,6 +46,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike, onRemoveR
           </button>
         </div>
       </div>
+      <Link to={`/recipe/${recipe.id}`} className="recipe-card-image-link">
+        {imageUrl && (
+          <img src={imageUrl} alt={recipe.name} className="recipe-image" />
+        )}
+      </Link>
       <div className="recipe-meta">
         <div className="meta-item">
           <span className="meta-label">⏱️ {recipe.cookingTime}min</span>
@@ -75,9 +82,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleLike, onRemoveR
           <p>{recipe.description}</p>
         </div>
       )}
-      {imageUrl && (
-        <img src={imageUrl} alt={recipe.name} className="recipe-image" />
-      )}
+      <div className="recipe-card-footer">
+        <Link to={`/recipe/${recipe.id}`} className="view-details-btn">View Details →</Link>
+      </div>
     </div>
   );
 };
