@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Recipe } from '../types/recipe';
+import { Card, Button, Input } from './ui';
 
 interface RecipeFormProps {
   onAddRecipe: (recipe: Recipe) => void;
@@ -15,10 +16,10 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe }) => {
   const [description, setDescription] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim()) return; // basic validation
+    if (!name.trim()) return;
 
     const newRecipe: Recipe = {
       id: Date.now().toString(),
@@ -44,87 +45,111 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onAddRecipe }) => {
     setIsOpen(false);
   };
 
+  if (!isOpen) {
+    return (
+      <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+        <Button onClick={() => setIsOpen(true)} size="lg">
+          ＋ Add Recipe
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div className="recipe-form-wrapper">
-      <button
-        className="toggle-form-btn"
-        onClick={() => setIsOpen(prev => !prev)}
-      >
-        {isOpen ? '✕ Cancel' : '＋ Add Recipe'}
-      </button>
-
-      {isOpen && (
-        <form className="recipe-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="recipe-name">Recipe Name *</label>
-            <input
-              id="recipe-name"
-              type="text"
-              placeholder="e.g. Pasta Carbonara"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="form-input"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="recipe-difficulty">Difficulty</label>
-            <select
-              id="recipe-difficulty"
-              value={difficulty}
-              onChange={e => setDifficulty(e.target.value as Recipe['difficulty'])}
-              className="form-select"
-            >
-              {DIFFICULTIES.map(d => (
-                <option key={d} value={d}>
-                  {d.charAt(0).toUpperCase() + d.slice(1)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="recipe-time">Cooking Time (min)</label>
-            <input
-              id="recipe-time"
-              type="number"
+    <Card style={{ maxWidth: '37.5rem', margin: '0 auto 2rem' }}>
+      <Card.Header>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Card.Title>Add New Recipe</Card.Title>
+          <Button variant="secondary" size="sm" onClick={() => setIsOpen(false)}>✕</Button>
+        </div>
+      </Card.Header>
+      <Card.Body>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <Input 
+            label="Recipe Name *" 
+            value={name} 
+            onChange={e => setName(e.target.value)} 
+            placeholder="e.g. Pasta Carbonara"
+            required
+          />
+          
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--color-text-muted)', display: 'block', marginBottom: '0.25rem' }}>
+                Difficulty
+              </label>
+              <select 
+                value={difficulty} 
+                onChange={e => setDifficulty(e.target.value as Recipe['difficulty'])}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border)',
+                  backgroundColor: 'var(--color-surface)',
+                  color: 'var(--color-text)',
+                  fontFamily: 'inherit'
+                }}
+              >
+                {DIFFICULTIES.map(d => (
+                  <option key={d} value={d}>
+                    {d.charAt(0).toUpperCase() + d.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Input 
+              label="Cooking Time (min)" 
+              type="number" 
+              value={cookingTime} 
+              onChange={e => setCookingTime(e.target.value)} 
               placeholder="e.g. 30"
-              value={cookingTime}
-              onChange={e => setCookingTime(e.target.value)}
-              className="form-input"
-              min="1"
+              style={{ flex: 1 }}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="recipe-ingredients">Ingredients (comma-separated)</label>
-            <input
-              id="recipe-ingredients"
-              type="text"
-              placeholder="e.g. Eggs, Pasta, Bacon"
-              value={ingredients}
-              onChange={e => setIngredients(e.target.value)}
-              className="form-input"
-            />
-          </div>
+          <Input 
+            label="Ingredients (comma-separated)" 
+            value={ingredients} 
+            onChange={e => setIngredients(e.target.value)} 
+            placeholder="e.g. Eggs, Pasta, Bacon"
+          />
 
-          <div className="form-group">
-            <label htmlFor="recipe-description">Description</label>
-            <textarea
-              id="recipe-description"
-              placeholder="e.g. A classic Italian dish..."
-              value={description}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <label style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--color-text-muted)' }}>
+              Description
+            </label>
+            <textarea 
+              value={description} 
               onChange={e => setDescription(e.target.value)}
-              className="form-input form-textarea"
-              rows={2}
+              placeholder="e.g. A classic Italian dish..."
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-text)',
+                fontFamily: 'inherit'
+              }}
             />
           </div>
 
-          <button type="submit" className="submit-btn">Add Recipe</button>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <Button type="submit" style={{ flex: 2 }}>Add Recipe</Button>
+            <Button 
+              type="button" 
+              variant="secondary" 
+              style={{ flex: 1 }}
+              onClick={() => setIsOpen(false)}
+            >
+              Cancel
+            </Button>
+          </div>
         </form>
-      )}
-    </div>
+      </Card.Body>
+    </Card>
   );
 };
 
