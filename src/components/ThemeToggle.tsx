@@ -1,14 +1,7 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ThemeToggle: React.FC = () => {
-  const themeContext = useContext(ThemeContext);
-
-  if (!themeContext) {
-    throw new Error('ThemeToggle must be used within a ThemeProvider');
-  }
-
-  const { theme, toggleTheme } = themeContext;
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button 
